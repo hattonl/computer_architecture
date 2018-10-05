@@ -17,6 +17,32 @@
 // mfc0      mfc0信号以区分是通用寄存器还是专用寄存器，00为通用寄存器 01 - 11 为三个专用寄存器(01 status 10 cause 11 EPC)
 // selpc     对于下一个PC的选择，00表示选择原来的npc(在第5章中表示过的那样)，01 EPC (中断返回？eret指令执行)，10 中断或异常的程序入口
 
+// input and output
+
+// input:
+//  op
+//  func
+//  z
+//  clock
+//  resetn
+
+// output:
+//  wpc:  ip寄存器写使能信号
+//  wir:  ir寄存器写是能信号
+//  wmem: memory写使能信号
+//  wreg: 寄存器组写使能信号
+//  iord:   memory访问地址，区分访问数据还是取指令
+//  regrt:  表示写入的寄存器号为reg[rt], 默认情况下为reg[rd]
+//  m2reg:  表示写入寄存器的值来自memory
+//  aluc:   ALU 运算的控制信号，进行加、减、与、异或
+//  shift:  表示选择寄存器的指还是选择移位sa来作为opa的值
+//  alusrca: ALU a端输入数据的选择
+//  alusrcb: ALU b端输入的数据选择
+//  pcsource: PC的信号选择
+//  jal:  
+//  sext: 是否进行符号位扩展，为1表示进行符号为扩展，为0表示不进行符号位的扩展
+//  state: 表示当前所在的周期
+
 module mccu (op, func, z, clock, resetn,
              wpc, wir, wmem, wreg, iord, regrt, m2reg, aluc,
             shift, alusrca, alusrcb, pcsource, jal, sext, state);
@@ -63,7 +89,7 @@ module mccu (op, func, z, clock, resetn,
     and (i_j,    ~op[5], ~op[4], ~op[3], ~op[2],  op[1], ~op[0]);
     and (i_jal,  ~op[5], ~op[4], ~op[3], ~op[2],  op[1],  op[0]);
 
-    wire i_shift;
+    wire i_shift; // 是否进行移位
     or (i_shift, i_sll, i_srl, i_sra);
 
     always @ * begin        // control signals' default outputs:

@@ -14,7 +14,25 @@
 // alu      alu输出的值
 // data     从寄存器组中读取的值
 // wmem     写memory使能信号
-// inta     中断应答信号，
+// inta     中断应答信号
+// input and output 
+
+// input:
+//  frommem: 从memory中取出的指令
+//  clock:   时钟
+//  resetn:  复位信号
+
+// output:
+//  pc:
+//  inst:
+//  alua:
+//  alub:
+//  alu:
+//  wmem:
+//  madr:
+//  tomem:
+//  state:
+
 module mccpu (clock, resetn, frommem, pc, inst, alua, alub, alu, wmem, madr, tomem, state);
 
     input [31:0] frommem;
