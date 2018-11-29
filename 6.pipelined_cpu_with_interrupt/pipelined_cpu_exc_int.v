@@ -12,11 +12,15 @@
 // 和ppt上有两处不同
 // ppt
 // module pipelinedcpu (clk, clrn, pc, inst, ealu, malu, wdi);
-module pipelinedcpu (clock, resetn, pc, inst, ealu, malu, walu);
+module pipelined_cpu_exc_int (clock, resetn, pc, inst, ealu, malu, walu,
+                                intr, inta);
 // module pipelinedcpu (clock, memclock, resetn, pc, inst, ealu, malu, walu);
     // input clock, memclock, resetn;
-    input clock, resetn;
+    input clock, resetn, intr;
     output [31:0] pc, inst, ealu, malu, walu;
+    output  inta;
+
+    parameter EXC_BASE = 32'h00000008; // = base = BASE
     
     wire [31:0] bpc, jpc, npc, pc4, ins, dpc4, inst, da, db, dimm, ea, eb, eimm;
     wire [31:0] epc4, mb, mmo, wmo, wdi;
